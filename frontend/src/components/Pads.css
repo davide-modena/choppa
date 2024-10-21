@@ -1,0 +1,37 @@
+.container{
+    height: 90vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.grid {
+    display: grid;
+    gap: 5px; /* Spazio tra i quadrati */
+    grid-template-columns: repeat(3, 1fr); /* Usa il numero di colonne */
+    grid-template-rows: repeat(3, 1fr); /* Usa il numero di righe */
+}
+
+.grid div {
+    filter: saturate(50%) brightness(80%);
+    transition: 0.3s ease;
+}
+
+.grid div:hover{
+    filter: saturate(100%);
+}
+
+.footer{
+    height: 50px;
+}
+
+.icon{
+    position: absolute;
+    font-size: 30px;
+    color: white;
+}
+
+.icon.right{
+    position: relative;
+    left: 180px;
+}
