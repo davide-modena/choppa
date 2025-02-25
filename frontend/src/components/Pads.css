@@ -17,10 +17,24 @@
     filter: saturate(50%) brightness(80%);
     transition: 0.3s ease;
     background-color: green;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .pads div:hover, .pad.active{
     filter: saturate(100%);
+}
+
+.pads input{
+    background: none;
+    text-align: center;
+    width: 100%;
+    outline: none;
+    border: none;
+    color: white;
+    font-size: 20px;
+    padding-left: 12px;
 }
 
 .controls{
