@@ -4,9 +4,10 @@ import './Pads.css';
 
 const YouTubeAudioPlayer = () => {
   const playerRef = useRef(null);
-  const [videoId, setVideoId] = useState('e-dtwySzcQc');
+  const [videoId, setVideoId] = useState('7FlvTU_7U4A');
   const [padTimes, setPadTimes] = useState(Array(9).fill(0));
   const [activePad, setActivePad] = useState(null);
+  const [showVideoIdForm, setShowVideoIdForm] = useState(false);
 
   const keyMap = {
     '7': 0,
@@ -67,14 +68,13 @@ const YouTubeAudioPlayer = () => {
   };
 
   const handleVideoIdSubmit = (e) => {
-    e.preventDefault(); // Previeni il comportamento predefinito del form
-    // Potresti voler aggiungere logica per verificare se l'ID video è valido
+    e.preventDefault();
   };
 
   const handleVideoIdChange = (e) => {
-    const url = e.target.value; // Ottieni l'URL dal campo di input
-    const id = extractVideoId(url); // Estrai l'ID dall'URL
-    setVideoId(id); // Aggiorna l'ID del video
+    const url = e.target.value;
+    const id = extractVideoId(url);
+    if (id) setVideoId(id);
   };
 
   const extractVideoId = (url) => {
@@ -96,7 +96,6 @@ const YouTubeAudioPlayer = () => {
       <div className="pads">
         {padTimes.map((time, index) => (
           <div key={index} className={`pad ${activePad === index ? 'active' : ''}`} onClick={() => handleButtonClick(index)}>
-            {/* <button style={{display: 'none'}} >Pad {index + 1}</button> */}
             <input
               type="number"
               value={time}
@@ -108,17 +107,22 @@ const YouTubeAudioPlayer = () => {
         ))}
       </div>
       <div className="controls">
-      <form onSubmit={handleVideoIdSubmit}>
-          <label>
-            Video ID:
-            <input
-              type="text"
-              value={videoId}
-              onChange={handleVideoIdChange}
-            />
-          </label>
-          <button type="submit">Cambia Video</button>
-        </form>
+        <button onClick={() => setShowVideoIdForm(!showVideoIdForm)}>
+          {showVideoIdForm ? 'Hide' : 'Change Video ID'}
+        </button>
+        {showVideoIdForm && (
+          <form onSubmit={handleVideoIdSubmit} className="video-id-form">
+            <label>
+              Video ID:
+              <input
+                type="text"
+                value={videoId}
+                onChange={handleVideoIdChange}
+              />
+            </label>
+            <button type="submit">Change Video</button>
+          </form>
+        )}
       </div>
     </div>
   );
