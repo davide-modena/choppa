@@ -67,3 +67,34 @@
     border-radius: 50px;
     cursor: pointer;
 }
+
+.songs-list{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    padding: 20px;
+    background-color: white;
+    color: black;
+    border-radius: 20px;
+}
+
+.songs-list div{
+    cursor: pointer;
+}
+
+.video-form{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    padding: 20px;
+    background-color: white;
+    color: black;
+    border-radius: 20px;
+}
+
+.video-form button{
+    color: black;
+    border: 1px solid black;
+}

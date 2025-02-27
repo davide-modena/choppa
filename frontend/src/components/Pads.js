@@ -1,13 +1,15 @@
 import React, { useRef, useState, useEffect } from 'react';
 import YouTube from 'react-youtube';
 import './Pads.css';
+import songsData from './../songs.json';
 
 const YouTubeAudioPlayer = () => {
   const playerRef = useRef(null);
   const [videoId, setVideoId] = useState('7FlvTU_7U4A');
   const [padTimes, setPadTimes] = useState(Array(9).fill(0));
   const [activePad, setActivePad] = useState(null);
-  const [showVideoIdForm, setShowVideoIdForm] = useState(false);
+  const [showVideoForm, setShowVideoForm] = useState(false);
+  const [showSongsList, setShowSongsList] = useState(false);
 
   const keyMap = {
     '7': 0,
@@ -69,18 +71,25 @@ const YouTubeAudioPlayer = () => {
 
   const handleVideoIdSubmit = (e) => {
     e.preventDefault();
+    setShowVideoForm(false);
   };
 
   const handleVideoIdChange = (e) => {
     const url = e.target.value;
     const id = extractVideoId(url);
-    if (id) setVideoId(id);
+    setVideoId(id);
   };
 
   const extractVideoId = (url) => {
     const regex = /(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^&\n]{11})/;
     const matches = url.match(regex);
     return matches ? matches[1] : null;
+  };
+
+  const selectSong = (song) => {
+    setVideoId(song.id);
+    setPadTimes(song.pads);
+    setShowSongsList(false);
   };
 
   useEffect(() => {
@@ -107,11 +116,9 @@ const YouTubeAudioPlayer = () => {
         ))}
       </div>
       <div className="controls">
-        <button onClick={() => setShowVideoIdForm(!showVideoIdForm)}>
-          {showVideoIdForm ? 'Hide' : 'Change Video ID'}
-        </button>
-        {showVideoIdForm && (
-          <form onSubmit={handleVideoIdSubmit} className="video-id-form">
+        <button onClick={() => setShowVideoForm(!showVideoForm)}>Cambia Video ID</button>
+        {showVideoForm && (
+          <form class="video-form" onSubmit={handleVideoIdSubmit}>
             <label>
               Video ID:
               <input
@@ -120,8 +127,18 @@ const YouTubeAudioPlayer = () => {
                 onChange={handleVideoIdChange}
               />
             </label>
-            <button type="submit">Change Video</button>
+            <button type="submit">Cambia Video</button>
           </form>
+        )}
+        <button onClick={() => setShowSongsList(!showSongsList)}>Lista Canzoni</button>
+        {showSongsList && (
+          <div className="songs-list">
+            {songsData.songs.map((song, index) => (
+              <div key={index} onClick={() => selectSong(song)}>
+                {song.title || "Senza Titolo"}
+              </div>
+            ))}
+          </div>
         )}
       </div>
     </div>
